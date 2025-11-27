@@ -1,6 +1,7 @@
 # Démonstration cartographie interactive tuilée
 
-Exemple minimal de production d'une carte interactive de données
+Exemple minimal de production d'une carte interactive "fluide" de données fines. 
+L'exemple donné consiste à représenter une donnée par Iris sur l'ensemble de la France métropolitaine (~48 000 territoires) :
 
 Les principes présentés sont ceux utilisés par 
 [l'outil interactif de cartographie infracommunale de l'Insee](https://www.insee.fr/fr/outil-interactif/7737357/index.html) : 
@@ -11,7 +12,8 @@ Les principes présentés sont ceux utilisés par
 - Installer R
 - Cloner le projet
 
-Le projet peut s'exécuter notamment dans [un service RStudio sous SSPcloud](https://datalab.sspcloud.fr/)
+Le projet peut s'exécuter notamment dans [un service RStudio du SSPcloud](https://datalab.sspcloud.fr/) 
+puis simplement exécuter `0_install_tippecanoe.sh`
 
 ## Utilisation
 

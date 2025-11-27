@@ -13,5 +13,4 @@
 
 ## la fonction system de R permet d'exécuter à partir d'un script R des commandes dans un terminal
 
-
-system("tippecanoe -o data/output/fm.pmtiles --minimum-zoom=4 --maximum-zoom=11 --force --drop-rate=0 --no-feature-limit --no-tile-size-limit --layer=iris_pop_retraite data/derived/fm.geojson")
+system("tippecanoe -o data/output/geo_with_data.pmtiles --minimum-zoom=4 --maximum-zoom=11 --force --drop-rate=0 --no-feature-limit --no-tile-size-limit --layer=data data/derived/geo_with_data.geojson")
