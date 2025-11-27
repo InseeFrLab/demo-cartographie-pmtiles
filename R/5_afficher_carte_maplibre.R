@@ -1,7 +1,7 @@
 # install.packages('pmtiles', repos = c('https://walkerke.r-universe.dev', 'https://cloud.r-project.org'))
 library(pmtiles)
 library(mapgl)
-library(mapboxapi)
+#library(mapboxapi)
 
 #chemin vers le fichier pmtiles que l'on veut afficher
 chemin_pmtiles <- "data/output/geo_with_data.pmtiles"
@@ -17,10 +17,9 @@ pm_serve(chemin_pmtiles, port = 8080)
 
 #création de la carte
 maplibre(center = c(2, 48), zoom= 4) |># on utilise la bibliothèque maplibre
-  set_projection("globe") |> #on choisit la projection de type globe
   add_vector_source(# permet d'aller pointer vers le fichier pmtiles que l'on veut interroger
     "pmtiles_source", #nom donnée au fichier pmtiles pour R
-    url = "pmtiles://http://localhost:8080/geo_with_data.pmtiles"#url du fichier pmtiles qui sera requêté pour construire la carte
+    url = "pmtiles://http://localhost:8080/geo_with_data.pmtiles" #url du fichier pmtiles qui sera requêté pour construire la carte
   ) |>
   add_fill_layer(#permet d'ajouter les choroplèthes
     id = "data",# nom de la couche
@@ -76,7 +75,7 @@ maplibre(center = c(2, 48), zoom= 4) |># on utilise la bibliothèque maplibre
   </style>
 
   <div id="legend_iris_com" class="legend">
-    <h4>Parmi les 15 ans ou plus, part des retraités (en %)</h4>
+    <h4>Part des retraités parmi les 15 ans ou plus (en %)</h4>
     <div><span style="background-color: #000000"></span>Valeur manquante</div>
     <div><span style="background-color: #fbd9d9"></span>Inférieur à 21%</div>
     <div><span style="background-color: #f8aeb1"></span>Entre 21 % et 27 % exclu</div>
