@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<!-- Structure de page reprise de "Carte facile" IGN -->
+<!-- https://fab-geocommuns.github.io/carte-facile-site/fr/documentation/exemples/carte-simple-maplibre-cdn/ -->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part des retraités par Iris</title>
+
+    <!-- Importation des bibliothèques MapLibre GL JS -->
+    <link href="https://unpkg.com/maplibre-gl@^5.2.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@^5.2.0/dist/maplibre-gl.js"></script>
+
+    <!-- Importation des bibliothèques Carte Facile -->
+    <link href="https://unpkg.com/carte-facile@^0.7.1/dist/carte-facile.css" rel="stylesheet" />
+    <script src="https://unpkg.com/carte-facile@^0.7.1/dist/carte-facile.js"></script>
+
+    <!-- Ajout nécessaire pour pmtiles -->
+    <script src="https://unpkg.com/pmtiles@3.2.0/dist/pmtiles.js"></script>
+
+    <!-- Style pour afficher la carte en plein écran -->
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            width: 100%;
+            margin: 0
+        }
+
+        #map {
+            background: #65a0ba;
+            background: radial-gradient(circle, rgba(101, 160, 186, 1) 30%, rgba(11, 47, 71, 1) 80%)
+        }
+    </style>
+</head>
+
+<body>
+
+    <style>
+        /* permet de définir les caractéristiques de la légende, on pourrait l'intégrer dans un fichier à part css*/
+        .legend {
+            /* caractéristiques principales de la légende*/
+            background: white;
+            /*fond de carte*/
+            padding: 10px;
+            /*espace autour de la légende*/
+            font-family: sans-serif;
+            /*police*/
+            font-size: 12px;
+            /*taille police*/
+            color: #333;
+            /*couleur police*/
+            border-radius: 4px;
+            /*coin arrondi*/
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            /*couleur ombre de la carte*/
+            position: absolute;
+            /*position absolue de la légende*/
+            top: 30px;
+            /*décalage de 30 pixel depuis le haut*/
+            left: 10px;
+            /*décalage de 10 pixel depuis la gauche*/
+            z-index: 1;
+            /*pour dire que la légende est au dessus de la carte et donc visible*/
+        }
+
+        .legend h4 {
+            /*titre de la légende*/
+            margin: 0 0 10px;
+            /*supprime la marge au dessus du titre, mais ajoute 10 pixel en dessous*/
+        }
+
+        .legend div {
+            /*cible les lignes de la légende */
+            display: flex;
+            /*affiche le carré de couleur + libellé sur la même ligne*/
+            align-items: center;
+            /*aligner au centre verticalement*/
+            margin-bottom: 5px;
+            /*espace entre chaque ligne*/
+        }
+
+        .legend span {
+            /*cible le carré qui contient les couleurs*/
+            display: inline-block;
+            /*donner une taille fixe au carré*/
+            width: 20px;
+            /*largeur du carré*/
+            height: 20px;
+            /*hauteur du carré*/
+            margin-right: 8px;
+            /*espace entre le carré et le texte*/
+        }
+    </style>
+
+    <!-- Le conteneur de la carte -->
+    <div id="map"></div>
+
+    <!-- Le conteneur de la légende -->
+    <div id="legend" class="legend">
+        <h4>Part des retraités parmi les 15 ans ou plus (en %) </h4>
+        <div><span style="background-color: #D3D3D3"></span>Valeur manquante</div>
+        <div><span style="background-color: #fbd9d9"></span>Inférieur à 21%</div>
+        <div><span style="background-color: #f8aeb1"></span>Entre 21 % et 27 % exclu</div>
+        <div><span style="background-color: #fa7075"></span>Entre 27 % et 32 % exclu</div>
+        <div><span style="background-color: #fa4545"></span>Entre 32 % et 39 % exclu</div>
+        <div><span style="background-color: #fb1e1e"></span>Entre 39 % et 50 % exclu</div>
+        <div><span style="background-color: #8e0000"></span>50 % ou plus</div>
+    </div>
+
+    <!-- Le script qui initialise la carte -->
+    <script>
+        // Création la carte
+        let map = new maplibregl.Map({
+            container: 'map', // id du conteneur de la carte
+            style: CarteFacile.mapStyles.desaturated, // Style de carte
+            minZoom: 1.8, // niveau de zoom minimum (optionnel)
+            maxZoom: 15, // niveau de zoom maximum, adapté aux cartes utilisant les données IGN
+            zoom: 5, // niveau de zoom inital (optionnel)
+            center: [-1.7393, 47.3088], // placement initial de la carte (optionnel)
+            hash: true // pour avoir les coordonnées directement dans l'url
+        });
+
+        // Ajout d'un contrôle de navigation
+        map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+        // Ajout d'une échelle
+        map.addControl(new maplibregl.ScaleControl({}));
+
+        // Configuration pmtiles/maplibre
+        // add the PMTiles plugin to the maplibregl global.
+        const protocol = new pmtiles.Protocol();
+        maplibregl.addProtocol('pmtiles', protocol.tile);
+
+        map.on('load', () => {
+            // importer le fichier .pmtiles qui contient toutes les couches
+            map.addSource("source_data", {
+                type: 'vector',
+                url: 'pmtiles://data/output/geo_with_data.pmtiles'
+            });
+
+
+            // permet de colorer les iris\communes en fonction des différents seuils
+            // Au préalable définir et calculer les seuils et le nombre de classes (cf. https://www.insee.fr/fr/statistiques/3640429)
+            map.addLayer({
+                'id': 'data_fill_layer', // nom de la couche dans le html
+                'type': 'fill',// type de couche fill : choroplèthe
+                'source': 'source_data', //donnee : identifiant du fichier tuilé pour le html
+                'source-layer': 'data', // nom de la couche que l'on veut représenter dans le fichier tuilé pmtiles
+                'paint': {
+                    'fill-outline-color': '#000000' ,//couleur des contours des iris/commune
+                    'fill-opacity': 0.9, // opacité par rapport au fond de carte
+                    'fill-color': [
+                        'case',
+
+                        // pour gérer les valeurs manquantes => on les mets en gris
+                        ['==', ['get', 'part_retraite_15p'], null], '#D3D3D3',
+
+                        // Palette de couleur du choroplèthe en fonction 
+                        ['step',
+                            ['get', 'part_retraite_15p'],
+                            '#fbd9d9',  // < 21 %
+                            21, '#f8aeb1', // Entre 21 % et 27 % exclu
+                            27, '#fa7075', //Entre 27 % et 32 % exclu
+                            32, '#fa4545', //Entre 32 % et 39 % exclu
+                            39, '#fb1e1e', //Entre 39 % et 50 % exclu
+                            50, '#8e0000' //50 % ou plus
+                        ]
+                    ]
+                }
+            });
+
+            // intéraction
+            // permet d'afficher un popup avec la valeur de l'indicateur quand on clique sur un zonage
+            // si l'indicateur est manquant dans les données, on affiche NA
+            map.on('click', 'data_fill_layer', (a_afficher) => { // on est sur la couche iris/com
+                new maplibregl.Popup()
+                    .setLngLat(a_afficher.lngLat) // permet d'afficher le popup en fonction de l'endroit où on clique
+                    .setHTML(`
+                        <strong>Nom commune :</strong> ${a_afficher.features[0].properties.NOM_COM}<br>
+                        <strong>Nom iris :</strong> ${a_afficher.features[0].properties.NOM_IRIS}<br>
+                        <strong>Part des retraités :</strong> ${a_afficher.features[0].properties.part_retraite_15p ?? "NA"} %
+                    `
+                    )
+                    .addTo(map);
+            });
+
+            // permet de créer un pointeur quand on passe sur un zonage
+            map.on('mouseenter', 'data_fill_layer', () => {// on est sur la couche iris\com
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // permet de ne plus avoir un pointeur quand on part d'un zonage
+            map.on('mouseleave', 'data_fill_layer', () => {// on est sur la couche iris\com
+                map.getCanvas().style.cursor = '';
+            });
+
+
+            // création d'un objet de type popup qui s'appelle nom_commune
+            // le but ici de créer un popup pour la couche iris\commune
+            // quand l'utilisateur passe la souris sur un iris, le nom de l'iris apparait
+            const popup = new maplibregl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+
+            // permet d'afficher le popup quand on passe sur le zonage avec la souris
+            map.on('mousemove', 'data_fill_layer', (e) => {// on est sur la couche iris\com
+                popup.setLngLat(e.lngLat)
+                    .setHTML(e.features[0].properties.NOM_IRIS)
+                    .addTo(map);
+            });
+
+            // permet de fermer le popup quand on quitte sur le zonage avec la souris
+            map.on('mouseleave', 'data_fill_layer', () => {// on est sur la couche iris\com
+                popup.remove();
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>
