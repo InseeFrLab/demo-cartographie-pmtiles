@@ -1,4 +1,4 @@
-# Démonstration cartographie interactive tuilée
+# Démonstration carte interactive de données fines
 
 Exemple minimal de création et visualisation d'une carte interactive "fluide" de données fines à l'aide de R, [tippecanoe](https://github.com/felt/tippecanoe), [maplibre](https://maplibre.org/), et le format [pmtiles](https://docs.protomaps.com/pmtiles/).
 
