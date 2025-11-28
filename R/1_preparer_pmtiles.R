@@ -97,10 +97,13 @@ st_write(
 ## --maximum-zoom=11 : zoom maximal auquel on veut représenter les iris\communes
 ## au-delà du zoom 11 le fond de carte continu à s'afficher mais les polygones ne gagnent pas en qualité
 ## --layer= : à noter car à reprendre ensuite dans la visualisation : nom de la couche dans le fichier tuilé, il contient la géométrie + les indicateurs
-## --no-tile-size-limit ne limite pas la taille des tuiles
 ## --force : écrase le fichier pmtiles s'il existe déjà
-## TODO A ajuster pour optimiser la taille des tuiles
-## --drop-rate=0, --no-feature-limit et --no-tile-size-limit sont des paramètres qui limitent au maximum la simplification des polygones, on aura ici des polygones bien définis, ce qui peut parfois entrainer des lenteur sur la carte
+
+## TODO Ici pour simplifier tout est réglé "sans limite"
+## Pour une application de production désactiver cette option et optimiser la simplification et les niveaux de zoom retenus
+## --no-tile-size-limit ne limite pas la taille des tuiles
+# paramètres qui limitent au maximum la simplification des polygones, on aura ici des polygones bien définis mais tuiles plus lourdes 
+## --drop-rate=0, --no-feature-limit et --no-tile-size-limit 
 
 ## la fonction system de R permet d'exécuter à partir d'un script R des commandes dans un terminal
 ## et le package glue facilite l'injection des paramètres et les sauts de lignes
@@ -113,7 +116,7 @@ system(
     "--force ",
     "--drop-rate=0 ",
     "--no-feature-limit ",
-    # "--no-tile-size-limit ",
+    "--no-tile-size-limit ",
     "--layer=data"
   )
 )
