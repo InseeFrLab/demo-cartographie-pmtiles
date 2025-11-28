@@ -1,20 +1,19 @@
 # Démonstration cartographie interactive tuilée
 
-Exemple minimal de création et visualisation d'une carte interactive "fluide" de données fines à l'aide de R, [tippecanoe](https://github.com/felt/tippecanoe), [maplibre](https://maplibre.org/), et le format [pmtiles](https://docs.protomaps.com/pmtiles/). 
+Exemple minimal de création et visualisation d'une carte interactive "fluide" de données fines à l'aide de R, [tippecanoe](https://github.com/felt/tippecanoe), [maplibre](https://maplibre.org/), et le format [pmtiles](https://docs.protomaps.com/pmtiles/).
+
+L'exemple donné consiste à représenter une donnée issue du [recensement de la population de l'Insee](https://www.insee.fr/fr/metadonnees/definition/c1486) par [Iris](https://www.insee.fr/fr/metadonnees/definition/c1523) sur l'ensemble de la France métropolitaine (**+48 000** territoires/polygones), mais peut servir de base pour produire une carte équivalente sur tout autre donnée et territoires.
+
+Le principe présenté est utilisé par [l'outil interactif de cartographie infracommunale de l'Insee](https://www.insee.fr/fr/outil-interactif/7737357/index.html). L'approche consiste à réunir contours géographiques et données un même fichier "tuilé" afin d'en proposer rapidement un rendu.
 
 ![Part des retraités par iris sur le côte Atlantique](capture.png)
-
-L'approche consiste à réunir contours géographiques et données un même fichier "tuilé" afin d'en proposer rapidement un rendu.
-Le principe présenté est utilisé par [l'outil interactif de cartographie infracommunale de l'Insee](https://www.insee.fr/fr/outil-interactif/7737357/index.html).
-
-L'exemple donné consiste à représenter une donnée issue du [recensement de la population](https://www.insee.fr/fr/metadonnees/definition/c1486) par [Iris](https://www.insee.fr/fr/metadonnees/definition/c1523) sur l'ensemble de la France métropolitaine (**+48 000** territoires/polygones), mais peut servir de base pour produire une carte équivalente sur tout autre donnée et territoires.
 
 ## Installation
 Pré-requis :
 - [tippecanoe](https://github.com/felt/tippecanoe?tab=readme-ov-file#installation) (Linux/Mac requis)
 - R
 
-Le projet peut s'exécuter notamment dans [un service RStudio du SSPcloud](https://datalab.sspcloud.fr/). Exécuter ensuite `0_install_tippecanoe.sh` pour installer ensuite tippecanoe.
+Le projet peut s'exécuter notamment dans [un service RStudio du SSPcloud](https://datalab.sspcloud.fr/). Exécuter ensuite `0_install_tippecanoe.sh` pour installer tippecanoe.
 
 ## Utilisation
 
