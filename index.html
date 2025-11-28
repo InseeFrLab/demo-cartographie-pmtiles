@@ -181,6 +181,7 @@
                     .setHTML(`
                         <strong>Commune :</strong> ${a_afficher.features[0].properties.NOM_COM}<br>
                         <strong>Iris :</strong> ${a_afficher.features[0].properties.NOM_IRIS}<br>
+                        <strong>Retraités :</strong> ${Math.round(a_afficher.features[0].properties.C22_POP15P_STAT_GSEC32)}<br>   
                         <strong>Part des retraités :</strong> ${a_afficher.features[0].properties.part_retraite_15p ?? "NA"} %
                     `
                     )
