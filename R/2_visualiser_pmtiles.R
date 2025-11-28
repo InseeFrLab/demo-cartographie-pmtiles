@@ -1,3 +1,5 @@
+# à creuser : fonctionne en local mais pas SSPcloud (config lancement sur "localhost" probalement)
+
 # install.packages('pmtiles', repos = c('https://walkerke.r-universe.dev', 'https://cloud.r-project.org'))
 library(pmtiles)
 library(mapgl)
