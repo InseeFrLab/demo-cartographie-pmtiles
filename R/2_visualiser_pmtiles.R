@@ -1,38 +1,40 @@
 # install.packages('pmtiles', repos = c('https://walkerke.r-universe.dev', 'https://cloud.r-project.org'))
 library(pmtiles)
+library(mapgl)
 
-#######################################
-#représenter un pmtiles en mode serveur, visualisation proche de ce qu'on a ici : https://pmtiles.io/#
-#permet de connaitre la structure du fichier pmtiles
-#######################################
+chemin_pmtiles <- "data/output/geo_avec_donnees.pmtiles"
 
-#lance un serveur qui affiche le fichier pmtiles
+# 1) Visualiser le pmtiles (comme sur pmtiles.io) -------------------------
+
+# Show basic info
+pm_show(chemin_pmtiles)
+
+# lance un serveur qui affiche le fichier pmtiles
 pm_view(
-  input = "data/output/geo_with_data.pmtiles",
+  input = chemin_pmtiles,
+  source_layer = "data",
+  port = 58080,
   inspect_features = TRUE # popup qui affiche les "propriétés" du fichier pmtiles
 )
 
-#pour arrêter le serveur qui appelle le fichier pmtiles
+# Penser à arrêter le serveur après !
 pm_stop_server()
 
-
 #chemin vers le fichier pmtiles que l'on veut afficher
-chemin_pmtiles <- "data/output/geo_with_data.pmtiles"
 
-############################
-#représenter un pmtiles en mode serveur avec un choroplèthe
-############################
+# 2) Représenter un pmtiles en mode serveur avec un choroplèthe ----------
+
 #https://gist.github.com/walkerke/cf87df489be8065635cf9b0c0dee34f5
 #https://walkerke.r-universe.dev/pmtiles
 
 #lancer le serveur
-pm_serve(chemin_pmtiles, port = 8080)
+pm_serve(chemin_pmtiles, port = 58080)
 
 #création de la carte
 maplibre(center = c(2, 48), zoom= 4) |># on utilise la bibliothèque maplibre
   add_vector_source(# permet d'aller pointer vers le fichier pmtiles que l'on veut interroger
     "pmtiles_source", #nom donnée au fichier pmtiles pour R
-    url = "pmtiles://http://localhost:8080/geo_with_data.pmtiles" #url du fichier pmtiles qui sera requêté pour construire la carte
+    url = "pmtiles://http://localhost:58080/geo_avec_donnees.pmtiles" #url du fichier pmtiles qui sera requêté pour construire la carte
   ) |>
   add_fill_layer(#permet d'ajouter les choroplèthes
     id = "data",# nom de la couche
