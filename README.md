@@ -1,8 +1,8 @@
 # Démonstration cartographie interactive tuilée
 
-![Part des retraités par iris sur le côte Atlantique](capture.png)
+Exemple minimal de création et visualisation d'une carte interactive "fluide" de données fines à l'aide de R, [tippecanoe](https://github.com/felt/tippecanoe), [maplibre](https://maplibre.org/), et le format [pmtiles](https://docs.protomaps.com/pmtiles/). 
 
-Exemple minimal de création et visualisation d'une carte interactive "fluide" de données fines à l'aide de [maplibre](https://maplibre.org/), [tippecanoe](https://github.com/felt/tippecanoe) et le format [pmtiles](https://docs.protomaps.com/pmtiles/). 
+![Part des retraités par iris sur le côte Atlantique](capture.png)
 
 L'approche consiste à réunir contours géographiques et données un même fichier "tuilé" afin d'en proposer rapidement un rendu.
 Le principe présenté est utilisé par [l'outil interactif de cartographie infracommunale de l'Insee](https://www.insee.fr/fr/outil-interactif/7737357/index.html).
