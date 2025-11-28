@@ -138,7 +138,8 @@
             // importer le fichier .pmtiles qui contient toutes les couches
             map.addSource("source_data", {
                 type: 'vector',
-                url: 'pmtiles://data/output/geo_with_data.pmtiles'
+                url: 'pmtiles://data/output/geo_with_data.pmtiles',
+                attribution: 'Insee'
             });
 
             // permet de colorer les iris\communes en fonction des différents seuils
@@ -178,8 +179,8 @@
                 new maplibregl.Popup()
                     .setLngLat(a_afficher.lngLat) // permet d'afficher le popup en fonction de l'endroit où on clique
                     .setHTML(`
-                        <strong>Nom commune :</strong> ${a_afficher.features[0].properties.NOM_COM}<br>
-                        <strong>Nom iris :</strong> ${a_afficher.features[0].properties.NOM_IRIS}<br>
+                        <strong>Commune :</strong> ${a_afficher.features[0].properties.NOM_COM}<br>
+                        <strong>Iris :</strong> ${a_afficher.features[0].properties.NOM_IRIS}<br>
                         <strong>Part des retraités :</strong> ${a_afficher.features[0].properties.part_retraite_15p ?? "NA"} %
                     `
                     )
@@ -195,7 +196,6 @@
             map.on('mouseleave', 'data_fill_layer', () => {// on est sur la couche iris\com
                 map.getCanvas().style.cursor = '';
             });
-
 
             // création d'un objet de type popup qui s'appelle nom_commune
             // le but ici de créer un popup pour la couche iris\commune
