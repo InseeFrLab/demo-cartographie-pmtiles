@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Part des retraités par Iris</title>
+    <title>Part des retraités par Iris - démonstration cartographie pmtiles</title>
 
     <!-- Importation des bibliothèques MapLibre GL JS -->
     <link href="https://unpkg.com/maplibre-gl@^5.2.0/dist/maplibre-gl.css" rel="stylesheet" />
@@ -16,7 +16,7 @@
     <link href="https://unpkg.com/carte-facile@^0.7.1/dist/carte-facile.css" rel="stylesheet" />
     <script src="https://unpkg.com/carte-facile@^0.7.1/dist/carte-facile.js"></script>
 
-    <!-- Ajout nécessaire pour pmtiles -->
+    <!-- Ajout nécessaire pour manipuler pmtiles avec maplibre -->
     <script src="https://unpkg.com/pmtiles@3.2.0/dist/pmtiles.js"></script>
 
     <!-- Style pour afficher la carte en plein écran -->
@@ -140,7 +140,6 @@
                 type: 'vector',
                 url: 'pmtiles://data/output/geo_with_data.pmtiles'
             });
-
 
             // permet de colorer les iris\communes en fonction des différents seuils
             // Au préalable définir et calculer les seuils et le nombre de classes (cf. https://www.insee.fr/fr/statistiques/3640429)
