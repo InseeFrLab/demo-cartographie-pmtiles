@@ -17,27 +17,18 @@ Le projet peut s'exécuter notamment dans [un service RStudio du SSPcloud](https
 
 ## Utilisation
 
-### Préparer le jeu de donnée tuilé (pmtiles)
+### 1 - Préparer le jeu de données tuilé (pmtiles)
 
-#### Transformer un ficher de type shapefile ou geopackage en geojson
+Le script `R/1_preparer_pmtiles.R` permet de préparer le jeu de données tuilé à représenter, en plusieurs étapes :
+* Téléchargement & décompression
+* Conversion en geojson des contours
+* Enrichir le fichier geojson avec les données
+* Générer un fichier tuilé pmtiles
 
-Le script `1_transformer_shapefile_en_geojson.R` permet de transformer un fichier shapefile ou geopackage en un fichier geojson.
+### 2 - Visualiser le jeu de données en R
 
-#### Enrichir un geojson avec des indicateurs
+Le script `R/2_visualiser_pmtiles.R` permet d'afficher dans R un fichier pmtiles.
 
-Le script `2_enrichir_geojson_indicateur_rp_2022.R` prend en entrée un fichier geojson et un fichier csv qui contient les indicateurs du recensement de la population 2022.
-En sortie, un fichier geojson avec les indicateurs RP 2022 est généré.
+### 3 - Visualiser le jeu de données sur une page web
 
-#### Transformer un fichier geojson en fichié tuilé (.pmtiles) avec l'outil tippecanoe
-
-Le script `3_transformer_geojson_en_pmtiles_tippecanoe.R` permet à partir d'un geojson de créer un fichier tuilé pmtiles.
-Pour pouvoir exécuter le script, il est nécessaire que l'outil tippecanoe soit installé. Le plus simple est d'utiliser un service LS3 ou SSPcloud.
-
-### Visualiser le jeu de donnée en R
-
-Le script `4_afficher_pmtiles_dans_R.R` permet d'afficher dans R un fichier pmtiles qui s'appelle fm.pmtiles.
-
-### Visualiser le jeu de donnée sur une page web
-
-Dans le dossier `affichage pmtiles html`, il y a le fichier index qui est un fichier html qui requête le fichier fm.pmtiles pour afficher la carte.
-Le fichier fm.pmtiles est un fichié tuilé qui contient la géométrie des iris ou communes ainsi que quelques variables, comme la part des retraités parmi les 15 ans ou plus.
+`index.html` propose un rendu basique avec maplibre du jeu de données tuilé.
