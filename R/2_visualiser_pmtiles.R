@@ -43,10 +43,16 @@ maplibre(center = c(2, 48), zoom= 4) |># on utilise la bibliothèque maplibre
     source = "pmtiles_source",#fait référence au nom que l'on donne dans "add_vector_source" pour le fichier pmtiles utilisé
     source_layer = "data",#nom de la couche dans le pmtiles que l'on veut représenter
     tooltip = "part_retraite_15p",#variable que l'on veut utiliser pour colorer la carte
-    fill_color = interpolate(
-      column = "part_retraite_15p",#variable que l'on veut utiliser pour colorer la carte
-      values = c(0,21,27,32,39,50),#les seuils des différentes classes
-      stops = c("#fbd9d9", "#f8aeb1","#fa7075", "#fa4545","#fb1e1e","#8e0000")),#les couleurs des différentes classes
+        fill_color = list(
+      "step",
+      list("get", "part_retraite_15p"),
+      "#fbd9d9", 21,#inférieur à 21 %
+      "#f8aeb1", 27,#Entre 21 % et 27 % exclu
+      "#fa7075", 32,#Entre 27 % et 32 % exclu
+      "#fa4545", 39,#Entre 32 % et 39 % exclu
+      "#fb1e1e", 50,#>Entre 39 % et 50 % exclu
+      "#8e0000"#50 % ou plus
+    ),#les couleurs des différentes classes
     fill_opacity = 0.9# opacité 
   ) |> add_line_layer(#permet d'ajouter les contours des iris\communes
     id = "contour_iris_com",#nom donné aux contours des iris\communes
