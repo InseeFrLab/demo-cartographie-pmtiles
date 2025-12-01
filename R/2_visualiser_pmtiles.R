@@ -1,7 +1,10 @@
-# à creuser : fonctionne en local mais pas SSPcloud (config lancement sur "localhost" probalement)
+# Visualiser le pmtiles depuis R
+# Avertissement : expérimental, repose sur des packages jeunes et en cours de développement
 
 # install.packages('pmtiles', repos = c('https://walkerke.r-universe.dev', 'https://cloud.r-project.org'))
 library(pmtiles)
+# La version sur le CRAN ne semble pas opérationnelle, préférer celle de dev :
+# remotes::install_github("walkerke/mapgl")
 library(mapgl)
 
 chemin_pmtiles <- "data/output/geo_avec_donnees.pmtiles"
@@ -15,6 +18,7 @@ pm_show(chemin_pmtiles)
 pm_view(
   input = chemin_pmtiles,
   source_layer = "data",
+  #TODO sspcloud/à creuser : port 8080 ne fonctionne pas, changé pour 58080
   port = 58080,
   inspect_features = TRUE # popup qui affiche les "propriétés" du fichier pmtiles
 )
