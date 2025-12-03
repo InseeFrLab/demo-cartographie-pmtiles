@@ -4,7 +4,7 @@ Exemple minimal de création et visualisation d'une carte interactive "fluide" d
 
 L'exemple donné consiste à représenter une donnée issue du [recensement de la population de l'Insee](https://www.insee.fr/fr/metadonnees/definition/c1486) par [Iris](https://www.insee.fr/fr/metadonnees/definition/c1523) sur l'ensemble de la France métropolitaine (**+48 000** territoires/polygones), mais peut servir de base pour produire une carte équivalente sur tout autre donnée et territoires.
 
-Le principe présenté est utilisé par [l'outil interactif de cartographie infracommunale de l'Insee](https://www.insee.fr/fr/outil-interactif/7737357/index.html). L'approche consiste à réunir contours géographiques et données un même fichier "tuilé" afin d'en proposer rapidement un rendu.
+Le principe présenté est utilisé par [l'outil interactif de cartographie infracommunale de l'Insee](https://www.insee.fr/fr/outil-interactif/7737357/index.html). L'approche consiste à réunir contours géographiques et données un même fichier "tuilé" et pré-calculer des indicateurs afin d'en proposer rapidement un rendu. Certains aspects sont ici volontairement éludés et seraient à étudier pour application en production : optimisation du poids des tuiles générées, fusion des données et contours métropole et DOM, ...
 
 ![Part des retraités par iris sur le côte Atlantique](capture.png)
 
